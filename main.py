@@ -1,8 +1,12 @@
-import os, json
+import os
+import json
+import base64
 from flask import Flask, request, jsonify
 import gspread
 
-gc = gspread.service_account_from_dict(json.loads(os.environ["SERVICE_ACCOUNT_JSON"]))
+# 解码 base64 到 json
+sa_json = base64.b64decode(os.environ["SERVICE_ACCOUNT_JSON"]).decode("utf-8")
+gc = gspread.service_account_from_dict(json.loads(sa_json))
 sheet = gc.open_by_key('1U8nBZz7j91G3Ek1kONWp4zPmUNuQpxPQmPktyw1WvbA').sheet1
 
 app = Flask(__name__)
